@@ -1,0 +1,2 @@
+# BestBotty
+Personal Discord Bot
