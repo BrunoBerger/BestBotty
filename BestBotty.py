@@ -1,5 +1,6 @@
 import json
 import discord
+import reactions
 
 TOKEN = ""
 
@@ -15,7 +16,9 @@ async def on_ready():
 
 @client.event
 async def on_connect():
-    discord.CustomActivity("§hellp")
+    await client.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching,
+        name="§help"))
 
 @client.event
 async def on_message(message):
@@ -23,10 +26,12 @@ async def on_message(message):
         return
 
     if message.content.startswith('§help'):
-        await message.channel.send('lmao get fucked')
+        await message.channel.send("Hi, I respond to §help and §test")
+
+    if message.content.startswith('§test'):
+        await message.channel.send("lmao: " + str(message.author) + ": " + message.content)
 
     if message.content.startswith("emoji"):
         await message.channel.send("cringe")
-
 
 client.run(TOKEN)
