@@ -1,6 +1,5 @@
 import json
 import discord
-import reactions
 
 TOKEN = ""
 
@@ -31,7 +30,7 @@ async def on_message(message):
     if message.content.startswith('§test'):
         await message.channel.send("lmao: " + str(message.author) + ": " + message.content)
 
-    if message.content.startswith("emoji"):
+    if ("emoji") in message.content:
         await message.channel.send("cringe")
 
 client.run(TOKEN)
