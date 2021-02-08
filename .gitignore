@@ -1,3 +1,7 @@
+nohup.out
+apStorage
+
+# !!!
 # If you remove this, you may leak your saved tokens if you commit
 config.json
 
