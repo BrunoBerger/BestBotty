@@ -14,7 +14,7 @@ def initCalendar(apList, sched):
     try:
         with open ('apStorage', 'w') as f:
             apList = pickle.load(f)
-            print("eventStorage loaded")
+            print("apStorage loaded")
 
         for item in apList:
             newAppointment(item)

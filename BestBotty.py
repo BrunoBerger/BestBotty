@@ -31,12 +31,11 @@ async def on_message(message):
         await message.channel.send("Hi, I respond to §test, §termin\n use -h for command info")
 
     if message.content.startswith('§test'):
-        await message.channel.send("lmao: " + str(message.author) + ": " + message.content)
+        await message.channel.send("Current Events: "+ str(sched.get_jobs()))
 
     if message.content.startswith("§termin"):
         if ("-h") in message.content:
             await message.channel.send("§termin usage:\n - tmp")
-
         await ap.newAppointment(message, apList, sched)
 
 apList = []
