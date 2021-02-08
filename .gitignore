@@ -1,5 +1,6 @@
 nohup.out
 apStorage
+uml.drawio
 
 # !!!
 # If you remove this, you may leak your saved tokens if you commit
