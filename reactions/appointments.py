@@ -1,55 +1,58 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
+import os
 import pickle
 
 import discord
 
+# TODO: switch from lists to objects
+# class Appointment(object):
+#     def __init__(self, apAuthor, apName, apDate, apTime):
+#         self.apAuthor = apAuthor
+#         self.apName = apName
+#         self.apDate = apDate
+#         self.apTime = apTime
 
-
-def stopScheduler():
-    sched.shutdown()
 
 def initCalendar(apList, sched):
     print("initing calendar")
-    try:
-        with open ('apStorage', 'w') as f:
+    if os.path.getsize("apStorage") > 0:
+        with open('apStorage', 'rb') as f:
             apList = pickle.load(f)
-            print("apStorage loaded")
+            print("apStorage loaded:")
+            print(apList)
 
         for item in apList:
-            newAppointment(item)
-    except:
-        print("file empty?")
+            addJob(item, apList, sched)
 
-async def newAppointment(message, apList, sched):
-    if message.content=="§termin":
-        await message.channel.send("Please provide all necassary details")
-        return
+def newAppointment(message, apList, sched):
+        msg = message.content.split(" ")
+        apAuthor = message.author.display_name
+        apName = msg[1]
+        apDate = msg[2]
+        apTime = msg[3]
+        appointment = [apAuthor, apName, apDate, apTime]
 
-    msg = message.content.split(" ")
-    apAuthor = message.author.display_name
-    apName = msg[1]
-    apDate = msg[2]
-    apTime = msg[3]
-    appointment = [apAuthor, apName, apDate, apTime]
-    print("New Appointment of type")
-    print(appointment)
+        print("New Appointment:")
+        print(appointment)
+        apList.append(appointment)
+        print("Current Ap-List:")
+        print(apList)
 
-    schDate = datetime.now() + timedelta(seconds=3)
-    sched.add_job(remind, "date", run_date=schDate, args="" )
-    # print(sched.get_jobs())
+        addJob(appointment, apList, sched)
+        with open('apStorage', 'wb') as f:
+            pickle.dump(apList, f)
 
+def addJob(appointment, apList, sched):
+    schDate = datetime.now() + timedelta(seconds=5)
+    print(schDate)
+    sched.add_job(remind, trigger="date", run_date=schDate)
 
-    apList.append(appointment)
-    print("Current Ap-List:")
-    print(apList)
-
-    with open('apStorage', 'wb') as f:
-        pickle.dump(apList, f)
 
 async def remind():
-    print(reminding)
+    print("reminding")
     await message.channel.send("TERMIN!!!!")
+
 
 def test_populateCalendar():
     return

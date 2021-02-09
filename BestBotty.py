@@ -34,9 +34,12 @@ async def on_message(message):
         await message.channel.send("Current Events: "+ str(sched.get_jobs()))
 
     if message.content.startswith("§termin"):
+        if message.content=="§termin":
+            await message.channel.send("Please provide all necassary details")
+            return
         if ("-h") in message.content:
             await message.channel.send("§termin usage:\n - tmp")
-        await ap.newAppointment(message, apList, sched)
+        ap.newAppointment(message, apList, sched)
 
 apList = []
 sched = BackgroundScheduler(daemon=True)
