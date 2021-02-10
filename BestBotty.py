@@ -1,14 +1,16 @@
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import json
 import discord
 
 from reactions import appointments as ap
 
 TOKEN = ""
+RE_CHAN = ""
 
 with open("config.json") as f:
     config = json.load(f)
     TOKEN = config["TOKEN"]
+    RE_CHAN = config["RE_CHANNEL"]
 
 client = discord.Client()
 
@@ -39,13 +41,16 @@ async def on_message(message):
             return
         if ("-h") in message.content:
             await message.channel.send("§termin usage:\n - tmp")
-        ap.newAppointment(message, apList, sched)
+        ap.newAppointment(client, message, apList, sched)
 
 apList = []
-sched = BackgroundScheduler(daemon=True)
-ap.initCalendar(apList, sched)
+sched = AsyncIOScheduler(daemon=True)
+sched.start()
+ap.initCalendar(client, apList, sched)
 
-
-client.run(TOKEN)
-
-# ap.shutdown()
+# TODO sort this mess out
+try:
+    client.run(TOKEN)
+except (KeyboardInterrupt, SystemExit):
+    pass
+sched.shutdown()

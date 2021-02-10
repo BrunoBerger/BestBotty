@@ -1,9 +1,11 @@
 import json
 
 token = input("Paste your token here:\n")
+reminderChannel = input("ID of channel where reminders will be posted:\n")
 
 data = {
-    "TOKEN": token
+    "TOKEN": token,
+    "RE_CHANNEL": reminderChannel
     }
 
 

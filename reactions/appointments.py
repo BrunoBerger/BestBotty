@@ -5,7 +5,7 @@ import pickle
 
 import discord
 
-# TODO: switch from lists to objects
+# TODO switch from lists to objects
 # class Appointment(object):
 #     def __init__(self, apAuthor, apName, apDate, apTime):
 #         self.apAuthor = apAuthor
@@ -14,7 +14,7 @@ import discord
 #         self.apTime = apTime
 
 
-def initCalendar(apList, sched):
+def initCalendar(client, apList, sched):
     print("initing calendar")
     if os.path.getsize("apStorage") > 0:
         with open('apStorage', 'rb') as f:
@@ -23,9 +23,9 @@ def initCalendar(apList, sched):
             print(apList)
 
         for item in apList:
-            addJob(item, apList, sched)
+            addJob(client, item, apList, sched)
 
-def newAppointment(message, apList, sched):
+def newAppointment(client, message, apList, sched):
         msg = message.content.split(" ")
         apAuthor = message.author.display_name
         apName = msg[1]
@@ -39,20 +39,57 @@ def newAppointment(message, apList, sched):
         print("Current Ap-List:")
         print(apList)
 
-        addJob(appointment, apList, sched)
+        addJob(client, appointment, apList, sched)
         with open('apStorage', 'wb') as f:
             pickle.dump(apList, f)
 
-def addJob(appointment, apList, sched):
-    schDate = datetime.now() + timedelta(seconds=5)
-    print(schDate)
-    sched.add_job(remind, trigger="date", run_date=schDate)
+def calcDueDay(wd):
+    today = datetime.now()
+    dueDay = today + timedelta( (wd-today.weekday()) % 7 )
+    print("DueDay of new Job is: ",dueDay)
+    return dueDay
 
+def addJob(client, appointment, apList, sched):
+    wd = str(appointment[2].lower()) # weekday specified by user
+    dd = 0                           # dueDay (converting wd to 0-7 range)
 
-async def remind():
-    print("reminding")
-    await message.channel.send("TERMIN!!!!")
+    # I know this is ugly, show me a better way if you can
+    if wd == "heute":
+        dd = datetime.now()
+    elif wd == "morgen":
+        dd = datetime.now() + timedelta(days=1)
+    elif wd == "montag":
+        dd = calcDueDay(wd=0)
+    elif wd == "dienstag":
+        dd = calcDueDay(wd=1)
+    elif wd == "mittwoch":
+        dd = calcDueDay(wd=2)
+    elif wd == "donnerstag":
+        dd = calcDueDay(wd=3)
+    elif wd == "freitag":
+        dd = calcDueDay(wd=4)
+    elif wd == "samstag":
+        dd = calcDueDay(wd=5)
+    elif wd == "sonntag":
+        dd = calcDueDay(wd=6)
+    else:
+        print("Incorrect Day")
 
+    exactDueDate = dd.replace(hour=int(appointment[3]),
+                              minute=0, second=0)
+    print("Now: ",datetime.now())
+    print("AP-Date: ", exactDueDate)
+    # exactDueDate = datetime.now() + timedelta(seconds=4)
+    sched.add_job(lambda: remind(client, appointment),
+                  trigger="date", run_date=exactDueDate)
 
+# TODO add ping to members who reacted to the §termin
+# TODO connect config.py to channelId
+def remind(client, appointment):
+    channel = client.get_channel(289049167806988288)
+    print("Reminding in "+str(channel))
+    client.loop.create_task(channel.send(appointment[1]+ " now!"))
+
+# TODO test-populate calendar with jobs due immediately after
 def test_populateCalendar():
     return
