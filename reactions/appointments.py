@@ -16,14 +16,18 @@ import discord
 
 def initCalendar(client, apList, sched):
     print("initing calendar")
-    if os.path.getsize("apStorage") > 0:
-        with open('apStorage', 'rb') as f:
-            apList = pickle.load(f)
-            print("apStorage loaded:")
-            print(apList)
+    try:
+        if os.path.getsize("apStorage") > 0:
+            with open('apStorage', 'rb') as f:
+                apList = pickle.load(f)
+                print("apStorage loaded:")
+                print(apList)
 
-        for item in apList:
-            addJob(client, item, apList, sched)
+            for item in apList:
+                addJob(client, item, apList, sched)
+    except FileNotFoundError:
+        print("nothing stored yet")
+        pass
 
 def newAppointment(client, message, apList, sched):
         msg = message.content.split(" ")
