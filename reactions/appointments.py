@@ -80,15 +80,24 @@ def addJob(client, appointment, apList, sched):
     print("Now: ",datetime.now())
     print("AP-Date: ", exactDueDate)
     # exactDueDate = datetime.now() + timedelta(seconds=4)
-    sched.add_job(lambda: remind(client, appointment),
+    sched.add_job(lambda: remind(client, appointment, apList),
                   trigger="date", run_date=exactDueDate)
 
-# TODO add ping to members who reacted to the §termin
+
+# TODO add ping to members who reacted to the §event
 # TODO connect config.py to channelId
-def remind(client, appointment):
+def remind(client, appointment, apList):
     channel = client.get_channel(289049167806988288)
     print("Reminding in "+str(channel))
     client.loop.create_task(channel.send(appointment[1]+ " now!"))
+
+    apList.remove(appointment)
+    with open('apStorage', 'wb') as f:
+        pickle.dump(apList, f)
+
+
+def deleteAll():
+    open("apStorage", "w").close()
 
 # TODO test-populate calendar with jobs due immediately after
 def test_populateCalendar():

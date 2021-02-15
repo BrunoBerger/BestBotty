@@ -30,17 +30,21 @@ async def on_message(message):
         return
 
     if message.content.startswith('§help'):
-        await message.channel.send("Hi, I respond to §test, §termin\n use -h for command info")
+        await message.channel.send("Hi, I respond to §test, §event\n use -h for command info")
 
-    if message.content.startswith('§test'):
+    if message.content.startswith('§events'):
         await message.channel.send("Current Events: "+ str(sched.get_jobs()))
 
-    if message.content.startswith("§termin"):
-        if message.content=="§termin":
+    if message.content.startswith('§deleteAll'):
+        apList = []
+        ap.deleteAll()
+
+    if message.content.startswith("§event"):
+        if message.content=="§event":
             await message.channel.send("Please provide all necassary details")
             return
         if ("-h") in message.content:
-            await message.channel.send("§termin usage:\n - tmp")
+            await message.channel.send("§event usage:\n - tmp")
         ap.newAppointment(client, message, apList, sched)
 
 apList = []
