@@ -3,7 +3,8 @@ const { Client, Collection, Intents, Channel } = require('discord.js');
 const { token } = require('./config.json');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-// console.log(client.channels.get);
+var bot_channel;
+
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -18,8 +19,8 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	client.user.setPresence('online');
 	client.user.setActivity("girl help", { type: 'PLAYING' });
-	const bot_channel = client.channels.cache.get('239190104571248640');
-	bot_channel.send("I'm back babeyy!");
+	bot_channel = client.channels.cache.get('239190104571248640');
+	// bot_channel.send("I'm back babeyy!");
 	
 	console.log(`Logged in as ${client.user.username}`);
 });
