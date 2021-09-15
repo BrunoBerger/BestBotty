@@ -12,6 +12,7 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
     console.log(command.data.name);
 }
+// console.log(commands.values);
 
 const rest = new REST({ version: '9' }).setToken(token);
 

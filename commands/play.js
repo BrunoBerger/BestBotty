@@ -1,5 +1,6 @@
 const fs = require('fs');
-const { SlashCommandBuilder, Embed } = require('@discordjs/builders');
+const { SlashCommandBuilder} = require('@discordjs/builders');
+const { joinVoiceChannel } = require('@discordjs/voice');
 const { MessageEmbed } = require('discord.js');
 const ytdl = require('ytdl-core');
 
@@ -13,19 +14,24 @@ module.exports = {
 				.setRequired(false)),
 
 	async execute(interaction) {
-		console.log(this.data.options);
-		const url = "https://youtu.be/2rCP4CRRO7E";
-		const songInfo = await ytdl.getInfo(url);
+		const givenURL = "https://youtu.be/2rCP4CRRO7E";
+		const songInfo = await ytdl.getInfo(givenURL);
 		const song = {
 			title: songInfo.videoDetails.title,
 			url: songInfo.videoDetails.video_url,
 			duration: songInfo.videoDetails.lengthSeconds,
 			thumbnail: songInfo.videoDetails.thumbnails[0].url
 		};
-		console.log("Song Reqested", song);
+		console.log("Song Reqested:", song);
 
-		// ytdl(song.url)
-  		// 	.pipe(fs.createWriteStream('video.mp4'));
+		const audio = ytdl(song.url, { quality: 'highestaudio' });
+  		audio.pipe(fs.createWriteStream('test.webm'));
+		  
+		const connection = joinVoiceChannel({
+			channelId: interaction.member.voice.channelId,
+			guildId: interaction.guildId,
+			adapterCreator: interaction.guild.voiceAdapterCreator,
+		});
 
 		var embed = new MessageEmbed()
 			.setColor('#e68447')
