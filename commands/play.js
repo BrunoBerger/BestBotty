@@ -6,9 +6,14 @@ const ytdl = require('ytdl-core');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('play')
-		.setDescription('play youtube link someday'),
+		.setDescription('play youtube link someday')
+		.addStringOption(option =>
+			option.setName('input')
+				.setDescription('What you want to play')
+				.setRequired(false)),
 
 	async execute(interaction) {
+		console.log(this.data.options);
 		const url = "https://youtu.be/2rCP4CRRO7E";
 		const songInfo = await ytdl.getInfo(url);
 		const song = {
