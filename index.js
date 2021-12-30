@@ -18,10 +18,10 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	client.user.setPresence('online');
-	client.user.setActivity("/Commands", { type: 'WATCHING' });
+	client.user.setActivity("/help", { type: 'WATCHING' });
 	bot_channel = client.channels.cache.get(botChannelId);
 	// bot_channel.send("I'm back babeyy!");
-	
+
 	console.log(`Logged in as ${client.user.username}`);
 });
 
