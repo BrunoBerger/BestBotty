@@ -8,11 +8,11 @@ js version of BestBotty
 ```json
 {
 	"token": "your-token-goes-here",
-	"guildId": "Get_ID_of_server",
-	"clientId": "Get_ID_from_bot_in_server",
-	"botChannelId": "Select_a_default_channel"
+	"clientId": "Get_ID_from_bot_in_server"
 }
 ```
+- Add a	```"guildId": "Get_ID_of_server"```, if you want to deploy guild-specific commands (Also needed for debugging)
+- Run the global deploy script and then index.js
 
 ### Goals
 - [ ] Play youtube urls

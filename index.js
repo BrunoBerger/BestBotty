@@ -1,9 +1,8 @@
 const fs = require('fs');
 const { Client, Collection, Intents, Channel } = require('discord.js');
-const { token, botChannelId } = require('./config.json');
+const { token } = require('./config.json');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-var bot_channel;
 
 
 client.commands = new Collection();
@@ -15,13 +14,9 @@ for (const file of commandFiles) {
 }
 
 
-
 client.once('ready', () => {
 	client.user.setPresence('online');
 	client.user.setActivity("/help", { type: 'WATCHING' });
-	bot_channel = client.channels.cache.get(botChannelId);
-	// bot_channel.send("I'm back babeyy!");
-
 	console.log(`Logged in as ${client.user.username}`);
 });
 
