@@ -23,7 +23,7 @@ const rest = new REST({ version: '9' }).setToken(token);
 			{ body: commands },
 		);
 
-		console.log('Successfully registered application commands.');
+		console.log('Successfully registered application commands for specific guild');
 	} catch (error) {
 		console.error(error);
 	}

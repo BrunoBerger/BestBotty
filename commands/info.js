@@ -17,6 +17,6 @@ module.exports = {
 				{ name: 'Bot uptime:', value: uptime, inline: true },
 				{ name: "Bot created at:", value: client.user.createdAt.toDateString(), inline: false }
 			)
-		await interaction.reply({ embeds: [embed] , ephemeral: true});
+		await interaction.reply({ embeds: [embed] , ephemeral: false});
 	},
 };
