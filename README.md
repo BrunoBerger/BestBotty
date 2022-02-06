@@ -1,9 +1,11 @@
 # js-bot
 js version of BestBotty
 
-
+Meant for our private Discord server
+#
 ### Install
-- node 16 or higher
+- node 16 or higher needed
+- run```npm install```
 - create a ``` config.json```
 ```json
 {
@@ -11,12 +13,12 @@ js version of BestBotty
 	"clientId": "Get_ID_from_bot_in_server"
 }
 ```
-- Add a	```"guildId": "Get_ID_of_server"```, if you want to deploy guild-specific commands (Also needed for debugging)
-- Run the global deploy script and then index.js
-
+- (Optional:) Add a ```"guildId": "Get_ID_of_server"``` to the config, if you want to deploy guild-specific commands (Also helpfull for debugging)
+- run ```node deploy-commands-global.js; node index.js```
+#
 ### Goals
 - [ ] Play youtube urls
 - [ ] Queue management
 - [ ] Support searching for videos
 - [ ] Support soundcloud + spotify
-- [ ] Appointments
+- [ ] Appointments/Events
