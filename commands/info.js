@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Client } = require('discord.js');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -15,7 +14,8 @@ module.exports = {
 			.setThumbnail(client.user.displayAvatarURL())
 			.addFields(
 				{ name: 'Bot uptime:', value: uptime, inline: true },
-				{ name: "Bot created at:", value: client.user.createdAt.toDateString(), inline: false }
+				{ name: "Bot created at:", value: client.user.createdAt.toDateString(), inline: false },
+				{ name: "Ping:", value: `${client.ws.ping} ms.` , inline: true }
 			)
 		await interaction.reply({ embeds: [embed] , ephemeral: false});
 	},
