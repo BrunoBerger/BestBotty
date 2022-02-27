@@ -8,35 +8,18 @@ module.exports = {
 		.setName('event')
 		.setDescription('Create a new Event'),
 	async execute(interaction) {
+		const is_ephemeral = true;
 		const row1 = new MessageActionRow()
 			.addComponents(
-				new MessageButton()
+				join_button = new MessageButton()
 					.setCustomId('join')
 					.setLabel('Join')
 					.setStyle('PRIMARY'),
 		);
-		// const row2 = new MessageActionRow()
-		// .addComponents(
-		// 	new MessageSelectMenu()
-		// 		.setCustomId('select')
-		// 		.setPlaceholder('Nothing selected')
-		// 		.addOptions([
-		// 			{
-		// 				label: 'Select me',
-		// 				description: 'This is a description',
-		// 				value: 'first_option',
-		// 			},
-		// 			{
-		// 				label: 'You can select me too',
-		// 				description: 'This is also a description',
-		// 				value: 'second_option',
-		// 			},
-		// 		]),
-		// );
-		await interaction.reply({content: `Participants: ${data.counter}`, components: [row1], ephemeral: true});    
+		await interaction.reply({content: `Crazy Event`, components: [row1], ephemeral: is_ephemeral});
 
 		const filter = (b_interaction) => b_interaction.message.interaction.id === interaction.id;
-		const collector = interaction.channel.createMessageComponentCollector({filter, time: 10000, max: 2});
+		const collector = interaction.channel.createMessageComponentCollector({filter, time: 20000, max: 2});
 
 		let participants = [];
 		let u_counter = 0;
@@ -45,18 +28,18 @@ module.exports = {
 			u_counter++;
 			participants.push(i.user)
 
-			await i.update({ content: `Participants: ${u_counter}`, components: [row1], ephemeral: true });
+			await i.update({ content: `Crazy Event\n${u_counter} joined`, components: [row1], ephemeral: is_ephemeral });
 
 		});
 
 		collector.on('end', async collected => {
 			// console.log(`Collected ${collected.size} items`);
 			// console.log(participants);
-			await interaction.followUp({ content: `Participants: ${participants}`, ephemeral: true })
+			row1.setComponents(join_button.setDisabled(true));
+			await interaction.followUp({ content: `Event is starting: ${participants}`, ephemeral: is_ephemeral })
+			await interaction.editReply({ content: `Crazy Event\n${u_counter} joined`, components: [row1], ephemeral: is_ephemeral });
 		});
 
 	},
-	
+
 };
-
-
