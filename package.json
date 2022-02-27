@@ -18,5 +18,8 @@
     "discord.js": "^13.1.0",
     "libsodium-wrappers": "^0.7.9",
     "ytdl-core": "^4.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0"
   }
 }
