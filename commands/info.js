@@ -14,8 +14,9 @@ module.exports = {
 			.setThumbnail(client.user.displayAvatarURL())
 			.addFields(
 				{ name: 'Bot uptime:', value: uptime, inline: true },
+				{ name: "Ping:", value: `${client.ws.ping} ms.` , inline: true },
 				{ name: "Bot created at:", value: client.user.createdAt.toDateString(), inline: false },
-				{ name: "Ping:", value: `${client.ws.ping} ms.` , inline: true }
+				{ name: "Repo:", value: "https://github.com/BrunoBerger/BestBotty", inline: false}
 			)
 		await interaction.reply({ embeds: [embed] , ephemeral: false});
 	},
