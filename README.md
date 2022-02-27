@@ -15,10 +15,3 @@ Meant for our private Discord server
 ```
 - (Optional:) Add a ```"guildId": "Get_ID_of_server"``` to the config, if you want to deploy guild-specific commands (Also helpfull for debugging, as it registers much faster)
 - run ```node deploy-commands-global.js && node index.js```
-#
-### Goals
-- [ ] Play youtube urls
-- [ ] Queue management
-- [ ] Support searching for videos
-- [ ] Support soundcloud + spotify
-- [ ] Appointments/Events
